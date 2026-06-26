@@ -105,6 +105,9 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Compile project for analysis
+        run: mvn -B compile -DskipTests
+
       - name: SonarQube code analysis
         uses: SonarSource/sonarqube-scan-action@v4
         env:
