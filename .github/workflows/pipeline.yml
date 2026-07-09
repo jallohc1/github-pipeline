@@ -66,7 +66,7 @@ jobs:
           name: unit-test-results
           path: target/surefire-reports/
 
-  quality-gate:
+ quality-gate:
     name: SonarCloud Quality Gate
     runs-on: ubuntu-latest
     needs: unit-test
@@ -82,6 +82,16 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
           cache: maven
+
+      - name: Debug Sonar config
+        run: |
+          echo "org=[$SONAR_ORGANIZATION]"
+          echo "key=[$SONAR_PROJECT_KEY]"
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "SONAR_TOKEN IS EMPTY"
+          else
+            echo "SONAR_TOKEN is set, length: ${#SONAR_TOKEN}"
+          fi
 
       - name: Run SonarCloud analysis and Quality Gate
         run: |
